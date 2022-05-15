@@ -39,6 +39,8 @@ if __name__ == '__main__':
     images = {}
     combos = []
     prot = []
+    ht = []
+    cardnum = 0
 
     bdurl = "https://db.ygoprodeck.com/api/v7/cardinfo.php?id="
 
@@ -70,6 +72,7 @@ if __name__ == '__main__':
         # print(main)
         # print(len(main))
         # print(mainReady)
+        cardnum = len(main)
         sg.theme('DarkBlue')
         layout = [[]]
         n = 0
@@ -119,7 +122,13 @@ if __name__ == '__main__':
         layout[c+1].append(sg.Button('Show protection cards', enable_events=True, key='SR'))
         layout[c+1].append(sg.Button('Remove protection cards', enable_events=True, key='PR'))
         layout.append([])
-        layout[c+2].append(sg.Button('Quit', enable_events=True, key='Q'))
+        layout[c + 2].append(sg.Button('Add Handtraps', enable_events=True, key='HT'))
+        layout[c + 2].append(sg.Button('Show Handtraps', enable_events=True, key='SHT'))
+        layout[c + 2].append(sg.Button('Remove Handtraps', enable_events=True, key='RHT'))
+        layout.append([])
+        layout[c+3].append(sg.Button('Execute', enable_events=True, key='EXEC'))
+        layout.append([])
+        layout[c+4].append(sg.Button('Quit', enable_events=True, key='Q'))
         window = sg.Window('Card Display', layout, finalize=True)
 
 
@@ -164,3 +173,23 @@ if __name__ == '__main__':
                 print(prot)
             if event == 'PR':
                 prot = []
+            if event == 'HT':
+                for row in layout:
+                    for element in row:
+                        if (element.key):
+                            if (element.key).startswith("CB-"):
+                                #print(element.key + str(element.get()))
+                                if element.get():
+                                    if (element.key[3:]) not in ht:
+                                        ht.append(element.key[3:])
+                                    element.update(value=False)
+            if event == 'SHT':
+                print(ht)
+            if event == 'RHT':
+                ht = []
+            if event == 'EXEC':
+                print(cardnum)
+                for comb in combos:
+                    print(comb)
+                    for c in comb:
+                        print(mainReady[c])
