@@ -264,5 +264,4 @@ Bear AND BrilliantFus AND 0 = Garnet
 
     print(input_cards_here)
     print(input_possibilities_here)
-    global card_hash
     run_sim(deck_size, hand_size, input_cards_here, input_possibilities_here, num_trials)

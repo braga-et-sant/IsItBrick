@@ -5,7 +5,8 @@
 # DONE: Download images for faster use
 # DONE: Add functions "Add combo" / "View Combos" / "Add Handtraps"
 # TODO: Add bricks function maybe?
-# TODO: Add the actual maths behind it now
+# DONE: Add the actual maths behind it now
+# TODO: Improve usability
 import os
 import webbrowser
 from io import BytesIO
@@ -14,7 +15,7 @@ from PIL import ImageQt
 from PIL import Image
 
 import requests
-
+import basicsim
 
 def image_to_data(im):
     """
@@ -189,7 +190,48 @@ if __name__ == '__main__':
                 ht = []
             if event == 'EXEC':
                 print(cardnum)
+                cards = "\n"
+                poss = "\n"
+                protec = "\n"
+                handtr = "\n"
                 for comb in combos:
-                    print(comb)
-                    for c in comb:
-                        print(mainReady[c])
+                    if len(comb) > 1:
+                        temp = ""
+                        for c in comb:
+                            if c == comb[len(comb)-1]:
+                                temp += c.replace(" ", "")
+                            else:
+                                temp += c.replace(" ", "") + " AND "
+                        poss += temp + "\n"
+                    else:
+                        poss += comb[0].replace(" ", "") + "\n"
+                for pr in prot:
+                    protec += pr.replace(" ", "") + "\n"
+                for h in ht:
+                    handtr += h.replace(" ", "") + "\n"
+                for c in mainReady:
+                    cards += (c.replace(" ", "") + " " + str(mainReady[c]))
+                    if c.replace(" ", "") in protec:
+                        cards += " Prot"
+                    if c.replace(" ", "") in handtr:
+                        cards +=" Handtrap"
+                    cards += "\n"
+                print("Your chance of opening a starter:")
+                basicsim.run_sim(cardnum, 5, cards, poss, 10000)
+                withht = ""
+                withpt = ""
+                withboth = ""
+                tmp = 0
+                for line in poss.splitlines():
+                    if(tmp == 0):
+                        tmp+=1
+                    else:
+                        withht += line + " AND Handtrap\n"
+                        withpt += line + " AND Prot\n"
+                        withboth += line + " AND Prot AND Handtrap\n"
+                print("Your chance of opening a starter and a handtrap:")
+                basicsim.run_sim(cardnum, 5, cards, withht, 10000)
+                print("Your chance of opening a starter and a protection card:")
+                basicsim.run_sim(cardnum, 5, cards, withpt, 10000)
+                print("Your chance of opening a starter and a handtrap and a protection card:")
+                basicsim.run_sim(cardnum, 5, cards, withboth, 10000)
