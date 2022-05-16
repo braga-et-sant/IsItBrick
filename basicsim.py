@@ -128,26 +128,24 @@ def is_one_valid_draw(hand, extras, possibilities, can_extrav, can_desires, can_
                              can_duality):
             return True
     if can_upstart and "Allure" in hand:
-        global allureflag
-        allureflag = 1
-        if is_one_valid(hand, [[['Allure', 1, '+'], ['Dark', 1, '+']]]):
-            temp_hand = hand.copy()
-            temp_extras = extras.copy()
-            temp_hand.append(temp_extras.pop())
-            temp_hand.append(temp_extras.pop())
-            temp_hand.remove("Allure")
-            for card in hand:
-                stuff = []
-                stuff.append(card)
-                stuff.append('Allure')
-                if is_one_valid(stuff, [[['Allure', 1, '+'], ['Dark', 1, '+']]]):
-                    temp_hand.remove(card)
-                    break
-
-            if is_one_valid_draw(temp_hand, temp_extras, possibilities, False, can_desires, can_upstart, False,
+        temp_hand = hand.copy()
+        temp_extras = extras.copy()
+        temp_hand.append(temp_extras.pop())
+        temp_hand.append(temp_extras.pop())
+        temp_hand.remove("Allure")
+        darks = []
+        for c in temp_hand:
+            if "Dark" in card_hash[c]:
+                darks.append(c)
+        if len(darks) == 0:
+            return False
+        for dark in darks:
+            temp_hand2 = temp_hand.copy()
+            temp_hand2.remove(dark)
+            if is_one_valid_draw(temp_hand2, temp_extras, possibilities, False, can_desires, can_upstart, False,
                                  can_duality):
                 return True
-        allureflag = 0
+
     if can_duality and "Duality" in hand:
         for i in range(0, 3):
             temp_hand = hand.copy()
