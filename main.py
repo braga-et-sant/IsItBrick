@@ -45,7 +45,7 @@ def makeComboWindow():
     :return: sg.Window
     """
     layout = []
-    layout.append([[sg.Text(key="COMBO", text=amogus)]])
+    layout.append([[sg.Text(key="COMBO", text="a")]])
     layout.append([])
     layout.append([
         [sg.Button('Add card', key='-AddC-'), sg.Button('Add tag', key='-AddT-'),
