@@ -196,12 +196,16 @@ if __name__ == '__main__':
                         tags[cardname] += " " + datalist['archetype']+"Spell"
                     if 'Trap' in datalist['type']:
                         tags[cardname] += " " + datalist['archetype']+"Trap"
-                if cardname in htlist:
-                    tags[cardname] += " Handtrap"
-                if cardname in seclist:
-                    tags[cardname] += " GoingSecond"
-                if cardname in protlist:
-                    tags[cardname] += " Prot"
+
+                for card in htlist:
+                    if cardname == card.replace(" ", ""):
+                        tags[cardname] += " Handtrap"
+                for card in seclist:
+                    if cardname == card.replace(" ", ""):
+                        tags[cardname] += " GoingSecond"
+                for card in protlist:
+                    if cardname == card.replace(" ", ""):
+                        tags[cardname] += " Prot"
 
         for key in tags:
             all = tags[key].split()
@@ -366,7 +370,7 @@ if __name__ == '__main__':
                         withboth += line.rstrip() + " AND Prot AND GoingSecond\n"
                 #print(cards)
                 #print(withht)
-                print("Your chance of opening a starter and a going second:")
+                print("Your chance of opening a starter and a going second card:")
                 basicsim.run_sim(cardnum, 5, cards, withht, 10000)
                 print("Your chance of opening a starter and a protection card:")
                 basicsim.run_sim(cardnum, 5, cards, withpt, 10000)
