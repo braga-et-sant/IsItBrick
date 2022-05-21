@@ -135,7 +135,7 @@ def is_one_valid_draw(hand, extras, possibilities, can_extrav, can_desires, can_
         temp_hand.remove("Allure")
         darks = []
         for c in temp_hand:
-            if "Dark" in card_hash[c]:
+            if "DARK" in card_hash[c]:
                 darks.append(c)
         if len(darks) == 0:
             return False
@@ -264,4 +264,5 @@ Bear AND BrilliantFus AND 0 = Garnet
 
     print(input_cards_here)
     print(input_possibilities_here)
+    global card_hash
     run_sim(deck_size, hand_size, input_cards_here, input_possibilities_here, num_trials)
